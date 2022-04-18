@@ -2,9 +2,9 @@ package com.example.monsterseeker.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.monsterseeker.models.ListMonster
+import com.example.monsterseeker.models.DetailedMonster
 
-class DetailedMonsterViewModel (
-    private val mListMonsters : MutableLiveData<List<ListMonster>>,
-    public val getListMonsters : LiveData<List<ListMonster>> = mListMonsters
+public class DetailedMonsterViewModel (
+    private val mDetailedMonsters : MutableLiveData<List<DetailedMonster>>,
+    public val getDetailedMonsters : LiveData<List<DetailedMonster>> = mDetailedMonsters
 )
