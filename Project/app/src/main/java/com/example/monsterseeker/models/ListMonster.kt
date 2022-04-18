@@ -1,4 +1,5 @@
 package com.example.monsterseeker.models
 
-class ListMonster {
-}
+data class ListMonster(
+    val name: String
+)
