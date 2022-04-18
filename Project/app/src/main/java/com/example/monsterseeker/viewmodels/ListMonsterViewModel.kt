@@ -4,18 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.monsterseeker.models.ListMonster
+import com.example.monsterseeker.repositories.ListMonsterRepository
 
-public class ListMonsterViewModel : ViewModel() {
-    private val listMonsters: MutableLiveData<List<ListMonster>> by lazy {
-        MutableLiveData<List<ListMonster>>().also {
-            loadListMonsters()
-        }
-    }
+class ListMonsterViewModel : ViewModel() {
+    private var detailedMonsters: MutableLiveData<List<ListMonster>>? = null
 
-    fun getDetailedMonsters(): LiveData<List<ListMonster>> {
-        return listMonsters
+    private var repository : ListMonsterRepository? = null
+
+    fun getListMonsters(): LiveData<List<ListMonster>>? {
+        return detailedMonsters
     }
 
     private fun loadListMonsters() {
+        if(detailedMonsters != null)
+            return
+        repository = ListMonsterRepository.getInstance()
+        detailedMonsters = repository!!.getDataSet()
     }
 }
