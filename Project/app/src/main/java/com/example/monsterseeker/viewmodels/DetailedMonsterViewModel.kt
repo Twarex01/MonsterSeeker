@@ -5,6 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.monsterseeker.models.DetailedMonster
 
 public class DetailedMonsterViewModel (
-    private val mDetailedMonsters : MutableLiveData<List<DetailedMonster>>,
-    public val getDetailedMonsters : LiveData<List<DetailedMonster>> = mDetailedMonsters
-)
+    private val detailedMonsters : MutableLiveData<List<DetailedMonster>>
+) {
+    fun getDetailedMonsters(): LiveData<List<DetailedMonster>> {
+        return detailedMonsters
+    }
+}
