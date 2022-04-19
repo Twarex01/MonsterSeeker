@@ -10,7 +10,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./Project
     steps:
       - uses: actions/checkout@v2
       - name: set up JDK
@@ -18,9 +20,9 @@ jobs:
         with:
           java-version: 11
       - name: Make Gradle executable
-        run: chmod +x ./Project/gradlew
+        run: chmod +x ./gradlew
       - name: Build with Gradle
-        run: ./Project/gradlew build
+        run: ./gradlew build
       - name: Build Debug APK
-        run: ./Project/gradlew assembleDebug
+        run: ./gradlew assembleDebug
         
