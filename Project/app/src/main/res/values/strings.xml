@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MonsterSeeker</string>
+    <string name="database">MonsterSeeker.db</string>
 </resources>

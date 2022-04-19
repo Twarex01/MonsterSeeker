@@ -1,17 +1,21 @@
 package com.example.monsterseeker.repositories
 
 import androidx.lifecycle.MutableLiveData
+import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.models.ListMonster
+import com.example.monsterseeker.services.MonsterService
+import javax.inject.Inject
 
-class ListMonsterRepository() {
+class ListMonsterRepository @Inject constructor(
+    private val monsterService: MonsterService,
+    private val monsterDao: MonsterDao
+){
+    //Init?
+
     companion object{
         private var instance : ListMonsterRepository? = null
 
         fun getInstance(): ListMonsterRepository {
-            if(instance == null)
-            {
-                instance = ListMonsterRepository()
-            }
             return instance as ListMonsterRepository
         }
     }
