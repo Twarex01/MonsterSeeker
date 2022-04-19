@@ -18,9 +18,9 @@ jobs:
         with:
           java-version: 11
       - name: Make Gradle executable
-        run: chmod +x ./gradlew
+        run: chmod +x .Project/gradlew
       - name: Build with Gradle
-        run: ./gradlew build
+        run: .Project/gradlew build
       - name: Build Debug APK
-        run: ./gradlew assembleDebug
+        run: .Project/gradlew assembleDebug
         
