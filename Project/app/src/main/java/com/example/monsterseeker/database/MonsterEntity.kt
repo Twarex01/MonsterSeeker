@@ -1,8 +1,13 @@
 package com.example.monsterseeker.database
 
-//@Entity
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class MonsterEntity(
-    val ui: Int,
+    @PrimaryKey val id: Long,
     val name: String,
     val description: String
+
+    //MockObject?
 )
