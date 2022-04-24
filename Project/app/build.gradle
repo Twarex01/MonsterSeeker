@@ -141,4 +141,4 @@ dependencies {
     androidTestImplementation "com.android.support.test:runner:$versions.androidTestRunner"
 }
 
-apply from: '../spotless.gradle'
+//apply from: '../spotless.gradle'
