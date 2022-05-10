@@ -18,9 +18,9 @@ namespace MonsterSeeker.Services
 
             _monsters = new List<MonsterEntity>()
             {
-                new MonsterEntity{ Name = "Test3", Description = "Desc", Favourite = false },
-                new MonsterEntity{ Name = "Test2", Description = "Desc", Favourite = true },
-                new MonsterEntity{ Name = "Test1", Description = "Desc", Favourite = false },
+                new MonsterEntity{ Id = 0, Name = "Test3", Description = "Desc", Favourite = false },
+                new MonsterEntity{ Id = 1, Name = "Test2", Description = "Desc", Favourite = true },
+                new MonsterEntity{ Id = 2, Name = "Test1", Description = "Desc", Favourite = false },
             };
         }
 
@@ -82,7 +82,9 @@ namespace MonsterSeeker.Services
             if (_monsters.Any(x => x.Name == monster.Name))
                 throw new Exception();
 
-            var newMonster = new MonsterEntity { Name = monster.Name, Description = monster.Description, Favourite = false };
+            var maxId = _monsters.Max(x => x.Id);
+
+            var newMonster = new MonsterEntity { Id = maxId + 1, Name = monster.Name, Description = monster.Description, Favourite = false };
 
             _monsters.Add(newMonster);
         }

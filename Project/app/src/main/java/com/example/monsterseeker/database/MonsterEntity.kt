@@ -9,6 +9,15 @@ data class MonsterEntity(
     val name: String,
     val description: String,
     val favourite: Boolean
+) {
 
-    //MockObject?
-)
+    companion object {
+
+        fun mock() = MonsterEntity(
+            id = 0,
+            name = "Monster",
+            description = "Super scary monster",
+            favourite = false
+        )
+    }
+}

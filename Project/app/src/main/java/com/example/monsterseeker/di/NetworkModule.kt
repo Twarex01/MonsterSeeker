@@ -19,11 +19,10 @@ object NetworkModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(
-                "TODO"
+                "https://localhost:7203/"
             )
             .build()
     }
-    //Factory?
 
     @Provides
     @Singleton
