@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MonsterSeeker.Dtos;
+using MonsterSeeker.Services;
 using MonsterSeeker.ValueObjects;
 
 namespace MonsterSeeker.Controllers
@@ -8,35 +9,42 @@ namespace MonsterSeeker.Controllers
     [Route("[controller]")]
     public class MonsterSeekerController : ControllerBase
     {
-        [HttpGet]
-        public Task<List<ListMonster>> GetMonsters(CancellationToken cancellationToken) 
+        IMonsterService _monsterService;
+
+        public MonsterSeekerController(IMonsterService monsterService)
         {
-            throw new NotImplementedException();
+            _monsterService = monsterService;
+        }
+
+        [HttpGet]
+        public async Task<List<ListMonster>> GetMonsters(CancellationToken cancellationToken) 
+        {
+            return await _monsterService.GetMonsters(cancellationToken);
         }
 
         [HttpGet("{name}")]
-        public Task<ListMonster> GetMonster([FromQuery] string name, CancellationToken cancellationToken)
+        public async Task<Monster> GetMonster([FromRoute] string name, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _monsterService.GetMonster(name, cancellationToken);
         }
 
         [HttpPut("{name}/favourite")]
-        public Task FavouriteMonster([FromQuery] string name, CancellationToken cancellationToken)
+        public async Task FavouriteMonster([FromRoute] string name, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _monsterService.FavouriteMonster(name, cancellationToken);
         }
 
 
         [HttpPost]
-        public Task AddMonster(NewMonster newMonster, CancellationToken cancellationToken)
+        public async Task AddMonster([FromQuery] NewMonster newMonster, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _monsterService.AddMonster(newMonster, cancellationToken);
         }
 
         [HttpDelete("{name}")]
-        public Task DeleteMonster([FromQuery] string name, CancellationToken cancellationToken)
+        public async Task DeleteMonster([FromRoute] string name, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _monsterService.DeleteMonster(name, cancellationToken);
         }
 
     }

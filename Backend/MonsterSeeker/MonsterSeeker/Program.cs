@@ -1,4 +1,8 @@
+using MonsterSeeker.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton<IMonsterService, MonsterService>();
 
 // Add services to the container.
 
