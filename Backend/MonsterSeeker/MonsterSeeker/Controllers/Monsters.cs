@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MonsterSeeker.Dtos;
+using MonsterSeeker.Entities;
 using MonsterSeeker.Services;
 using MonsterSeeker.ValueObjects;
 
@@ -7,13 +8,19 @@ namespace MonsterSeeker.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MonsterSeekerController : ControllerBase
+    public class Monsters : ControllerBase
     {
         IMonsterService _monsterService;
 
-        public MonsterSeekerController(IMonsterService monsterService)
+        public Monsters(IMonsterService monsterService)
         {
             _monsterService = monsterService;
+        }
+
+        [HttpGet("fetch")]
+        public async Task<List<MonsterEntity>> FetchMonsters(CancellationToken cancellationToken)
+        {
+            return await _monsterService.FetchMonsters(cancellationToken);
         }
 
         [HttpGet]

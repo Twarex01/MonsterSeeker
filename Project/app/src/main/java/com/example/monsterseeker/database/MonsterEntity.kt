@@ -7,7 +7,8 @@ import androidx.room.PrimaryKey
 data class MonsterEntity(
     @PrimaryKey val id: Long,
     val name: String,
-    val description: String
+    val description: String,
+    val favourite: Boolean
 
     //MockObject?
 )

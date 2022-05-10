@@ -24,6 +24,11 @@ namespace MonsterSeeker.Services
             };
         }
 
+        public async Task<List<MonsterEntity>> FetchMonsters(CancellationToken cancellationToken)
+        {
+            return _monsters;
+        }
+
         public async Task<List<ListMonster>> GetMonsters(CancellationToken cancellationToken) 
         {
             return await GetMonstersHelper(cancellationToken);
