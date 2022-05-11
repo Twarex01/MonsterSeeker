@@ -7,18 +7,17 @@ import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.repositories.ListMonsterRepository
 
 class ListMonsterViewModel : ViewModel() {
-    private var detailedMonsters: MutableLiveData<List<ListMonster>>? = null
+    private lateinit var detailedMonsters: MutableLiveData<List<ListMonster>>
+    private lateinit var repository : ListMonsterRepository
 
-    private var repository : ListMonsterRepository? = null
-
-    fun getListMonsters(): LiveData<List<ListMonster>>? {
+    fun getListMonsters(): LiveData<List<ListMonster>> {
         return detailedMonsters
     }
 
-    private fun loadListMonsters() {
-        if(detailedMonsters != null)
+    fun loadListMonsters() {
+        if(this::detailedMonsters.isInitialized)
             return
         repository = ListMonsterRepository.getInstance()
-        detailedMonsters = repository!!.getDataSet()
+        detailedMonsters = repository.getDataSet()
     }
 }

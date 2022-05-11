@@ -7,16 +7,18 @@ import com.example.monsterseeker.services.MonsterService
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
-    private val monsterService: MonsterService,
-    private val monsterDao: MonsterDao
+    //private val monsterService: MonsterService,
+    //private val monsterDao: MonsterDao
 ){
     //Init?
 
     companion object{
-        private var instance : ListMonsterRepository? = null
+        private lateinit var instance : ListMonsterRepository
 
         fun getInstance(): ListMonsterRepository {
-            return instance as ListMonsterRepository
+            if(!this::instance.isInitialized)
+                instance = ListMonsterRepository()
+            return instance
         }
     }
 
@@ -30,7 +32,15 @@ class ListMonsterRepository @Inject constructor(
         return data
     }
 
+    //TODO: Network call
     private fun setDataSet() {
-        //TODO
+        mockDataSet()
+    }
+
+    private fun mockDataSet() {
+        dataSet.add(ListMonster("Test 1", false))
+        dataSet.add(ListMonster("Test 2", false))
+        dataSet.add(ListMonster("Test 3", false))
+        dataSet.add(ListMonster("Test 4", false))
     }
 }
