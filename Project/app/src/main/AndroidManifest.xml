@@ -3,6 +3,7 @@
     package="com.example.monsterseeker">
 
     <application
+        android:name=".MonsterSeekerApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

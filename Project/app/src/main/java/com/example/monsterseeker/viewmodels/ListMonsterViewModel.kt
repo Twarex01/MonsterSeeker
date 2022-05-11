@@ -5,10 +5,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.repositories.ListMonsterRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ListMonsterViewModel : ViewModel() {
+@HiltViewModel
+class ListMonsterViewModel @Inject constructor(
+    listMonsterRepository: ListMonsterRepository
+) : ViewModel() {
     private lateinit var detailedMonsters: MutableLiveData<List<ListMonster>>
-    private lateinit var repository : ListMonsterRepository
+
+    private var repository : ListMonsterRepository = listMonsterRepository
 
     fun getListMonsters(): LiveData<List<ListMonster>> {
         return detailedMonsters
@@ -17,7 +23,6 @@ class ListMonsterViewModel : ViewModel() {
     fun loadListMonsters() {
         if(this::detailedMonsters.isInitialized)
             return
-        repository = ListMonsterRepository.getInstance()
         detailedMonsters = repository.getDataSet()
     }
 }

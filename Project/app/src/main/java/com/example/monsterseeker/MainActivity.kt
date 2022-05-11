@@ -1,15 +1,15 @@
 package com.example.monsterseeker
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterseeker.adapters.RecyclerAdapter
 import com.example.monsterseeker.viewmodels.ListMonsterViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,12 +20,12 @@ class MainActivity : AppCompatActivity() {
 
         model.loadListMonsters()
 
-        model.getListMonsters().observe(this, Observer {
-            var value = model.getListMonsters().value
+        model.getListMonsters().observe(this) {
+            val value = model.getListMonsters().value
             val adapter = RecyclerAdapter(value!!)
 
             recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(this)
-        })
+        }
     }
 }

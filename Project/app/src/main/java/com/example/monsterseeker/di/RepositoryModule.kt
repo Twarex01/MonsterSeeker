@@ -29,6 +29,6 @@ object RepositoryModule {
         monsterService: MonsterService,
         monsterDao: MonsterDao
     ): ListMonsterRepository {
-        return ListMonsterRepository()//monsterService, monsterDao)
+        return ListMonsterRepository(monsterService, monsterDao)
     }
 }

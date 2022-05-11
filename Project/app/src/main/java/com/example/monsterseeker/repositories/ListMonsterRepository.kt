@@ -7,21 +7,9 @@ import com.example.monsterseeker.services.MonsterService
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
-    //private val monsterService: MonsterService,
-    //private val monsterDao: MonsterDao
+    private val monsterService: MonsterService,
+    private val monsterDao: MonsterDao
 ){
-    //TODO: Di
-
-    companion object{
-        private lateinit var instance : ListMonsterRepository
-
-        fun getInstance(): ListMonsterRepository {
-            if(!this::instance.isInitialized)
-                instance = ListMonsterRepository()
-            return instance
-        }
-    }
-
     private var dataSet : ArrayList<ListMonster> = arrayListOf()
 
     fun getDataSet(): MutableLiveData<List<ListMonster>> {
