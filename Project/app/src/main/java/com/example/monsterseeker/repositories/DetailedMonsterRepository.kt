@@ -10,7 +10,7 @@ class DetailedMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    //Init?
+    //TODO: Di
 
     companion object{
         private var instance : DetailedMonsterRepository? = null
