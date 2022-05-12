@@ -14,18 +14,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var model : ListMonsterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
-        val model = ViewModelProvider(this)[ListMonsterViewModel::class.java]
+        model = ViewModelProvider(this)[ListMonsterViewModel::class.java]
 
         model.loadListMonsters()
 
         model.getListMonsters().observe(this) {
             val value = model.getListMonsters().value
-            val adapter = RecyclerAdapter(value!!){ onItemClick() }
+            val adapter = RecyclerAdapter(value!!, { name -> onButtonClick(name) }, { name -> onCheckBoxClick(name) })
 
             recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(this)
@@ -33,14 +36,24 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        //TODO: Rand
         fab.setOnClickListener(){
-            Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
-            model.addListMonster(NewMonster("AddedMonster", "Description"))
+            onFabClick()
         }
     }
 
-    private fun onItemClick() {
+    //TODO: Rand
+    private fun onFabClick() {
+        Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
+        model.addListMonster(NewMonster("AddedMonster", "Description"))
+    }
+
+    private fun onButtonClick(name : String) {
         Toast.makeText(this@MainActivity, "Monster removed", Toast.LENGTH_SHORT).show()
+        model.deleteListMonster(name)
+    }
+
+    private fun onCheckBoxClick(name : String) {
+        Toast.makeText(this@MainActivity, "Check boxed", Toast.LENGTH_SHORT).show()
+        model.favouriteListMonster(name)
     }
 }

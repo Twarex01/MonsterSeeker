@@ -10,13 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterseeker.R
 import com.example.monsterseeker.models.ListMonster
 
-class RecyclerAdapter(private val mList: List<ListMonster>, private val onItemClick: () -> Unit) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(private val mList: List<ListMonster>,
+                      private val onButtonClick: (name : String) -> Unit,
+                      private val onCheckBoxClick: (name : String) -> Unit) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_view_design, parent, false)
 
-        return ViewHolder(view, onItemClick)
+        return ViewHolder(view, onButtonClick, onCheckBoxClick)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -30,14 +32,21 @@ class RecyclerAdapter(private val mList: List<ListMonster>, private val onItemCl
         return mList.size
     }
 
-    class ViewHolder(ItemView: View, private val onItemClick: () -> Unit) : RecyclerView.ViewHolder(ItemView) {
+    class ViewHolder(ItemView: View,
+                     private val onButtonClick: (name : String) -> Unit,
+                     private val onCheckBoxClick: (name : String) -> Unit) : RecyclerView.ViewHolder(ItemView) {
         val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
         val textView: TextView = itemView.findViewById(R.id.textView)
 
         init {
+            val checkBox: CheckBox = itemView.findViewById(R.id.checkBox)
+            checkBox.setOnClickListener{
+                onCheckBoxClick(textView.text.toString())
+            }
+
             val button: Button = itemView.findViewById(R.id.button)
             button.setOnClickListener{
-                onItemClick()
+                onButtonClick(textView.text.toString())
             }
         }
     }
