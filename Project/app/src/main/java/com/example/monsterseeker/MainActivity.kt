@@ -28,7 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         model.getListMonsters().observe(this) {
             val value = model.getListMonsters().value
-            val adapter = RecyclerAdapter(value!!, { name -> onButtonClick(name) }, { name -> onCheckBoxClick(name) })
+            val adapter = RecyclerAdapter(value!!,
+                { name -> onButtonClick(name) },
+                { name -> onCheckBoxClick(name) },
+                { name -> onTextViewClick(name) })
 
             recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(this)
@@ -36,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
-        fab.setOnClickListener(){
+        fab.setOnClickListener {
             onFabClick()
         }
     }
@@ -55,5 +58,9 @@ class MainActivity : AppCompatActivity() {
     private fun onCheckBoxClick(name : String) {
         Toast.makeText(this@MainActivity, "Check boxed", Toast.LENGTH_SHORT).show()
         model.favouriteListMonster(name)
+    }
+
+    private fun onTextViewClick(name : String) {
+        Toast.makeText(this@MainActivity, "Monster opened", Toast.LENGTH_SHORT).show()
     }
 }
