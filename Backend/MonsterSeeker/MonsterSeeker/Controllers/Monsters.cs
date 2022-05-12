@@ -7,7 +7,7 @@ using MonsterSeeker.ValueObjects;
 namespace MonsterSeeker.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class Monsters : ControllerBase
     {
         IMonsterService _monsterService;

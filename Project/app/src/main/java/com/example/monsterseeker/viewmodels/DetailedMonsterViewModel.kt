@@ -5,20 +5,25 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.repositories.DetailedMonsterRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class DetailedMonsterViewModel : ViewModel() {
-    private var detailedMonsters: MutableLiveData<List<DetailedMonster>>? = null
+@HiltViewModel
+class DetailedMonsterViewModel @Inject constructor(
+    detailedMonsterRepository: DetailedMonsterRepository
+) : ViewModel() {
 
-    private var repository : DetailedMonsterRepository? = null
+    private lateinit var detailedMonster: MutableLiveData<DetailedMonster>
 
-    fun getDetailedMonsters(): LiveData<List<DetailedMonster>>? {
-        return detailedMonsters
+    private var repository : DetailedMonsterRepository = detailedMonsterRepository
+
+    fun getDetailedMonster(): LiveData<DetailedMonster> {
+        return detailedMonster
     }
 
-    private fun loadDetailedMonsters() {
-        if(detailedMonsters != null)
+    fun loadDetailedMonster(name : String) {
+        if(this::detailedMonster.isInitialized)
             return
-        repository = DetailedMonsterRepository.getInstance()
-        detailedMonsters = repository!!.getDataSet()
+        detailedMonster = repository.getMonsterByName(name)
     }
 }

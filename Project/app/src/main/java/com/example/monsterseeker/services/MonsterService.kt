@@ -9,21 +9,21 @@ import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface  MonsterService {
-    @GET("/Monsters/fetch")
+    @GET("api/Monsters/fetch")
     suspend fun fetchMonsterList(): ApiResponse<List<MonsterEntity>>
 
-    @GET("/Monsters")
+    @GET("api/Monsters")
     suspend fun getMonsters(): ApiResponse<List<ListMonster>>
 
-    @GET("/Monsters/{name}")
+    @GET("api/Monsters/{name}")
     suspend fun getMonster(@Path(value = "name") name : String): ApiResponse<DetailedMonster>
 
-    @PUT("/Monsters/{name}/favourite")
+    @PUT("api/Monsters/{name}/favourite")
     suspend fun favouriteMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
 
-    @POST("/Monsters")
+    @POST("api/Monsters")
     suspend fun addMonster(@Body newMonster : NewMonster): ApiResponse<ResponseBody>
 
-    @DELETE("/Monsters/{name}")
+    @DELETE("api/Monsters/{name}")
     suspend fun removeMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
 }

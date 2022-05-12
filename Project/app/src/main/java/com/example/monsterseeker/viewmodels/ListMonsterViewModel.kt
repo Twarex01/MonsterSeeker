@@ -24,11 +24,11 @@ class ListMonsterViewModel @Inject constructor(
     fun loadListMonsters() {
         if(this::detailedMonsters.isInitialized)
             return
-        detailedMonsters = repository.getDataSet()
+        detailedMonsters = repository.getMonsterData()
     }
 
     fun addListMonster(newMonster: NewMonster) {
-        repository.addToDataSet(
+        repository.addMonster(
             onStart = {},
             onCompletion = {},
             onError = {"Adding to DataSet failed"},
@@ -37,7 +37,7 @@ class ListMonsterViewModel @Inject constructor(
     }
 
     fun deleteListMonster(name: String) {
-        repository.deleteFromDataSet(
+        repository.deleteMonster(
             onStart = {},
             onCompletion = {},
             onError = {"Removing from DataSet failed"},
@@ -46,7 +46,7 @@ class ListMonsterViewModel @Inject constructor(
     }
 
     fun favouriteListMonster(name: String) {
-        repository.modifyInDataSet(
+        repository.favouriteMonster(
             onStart = {},
             onCompletion = {},
             onError = {"Modifying DataSet failed"},

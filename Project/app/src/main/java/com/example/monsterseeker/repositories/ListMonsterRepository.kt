@@ -6,7 +6,6 @@ import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
-import com.skydoves.sandwich.onError
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
@@ -14,33 +13,32 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
-import timber.log.Timber
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    private var dataSet : List<ListMonster> = listOf()
+    private lateinit var dataSet : List<ListMonster>
 
     //TODO: Dao
-    fun getDataSet(): MutableLiveData<List<ListMonster>> {
+    fun getMonsterData(): MutableLiveData<List<ListMonster>> {
         //setDataSet(
         //    onStart = {},
         //    onCompletion = {},
         //    onError = { "Setting DataSet failed" }
         //)
 
-        mockDataSet()
+        mockMonsterData()
 
-        val data : MutableLiveData<List<ListMonster>> = MutableLiveData()
+        val mutableData : MutableLiveData<List<ListMonster>> = MutableLiveData()
 
-        data.value = dataSet
-        return data
+        mutableData.value = dataSet
+        return mutableData
     }
 
     @WorkerThread
-    private fun setDataSet(
+    private fun setMonsterData(
         onStart: () -> Unit,
         onCompletion: () -> Unit,
         onError: (String) -> Unit
@@ -53,7 +51,7 @@ class ListMonsterRepository @Inject constructor(
     }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
 
     @WorkerThread
-    fun addToDataSet(
+    fun addMonster(
         onStart: () -> Unit,
         onCompletion: () -> Unit,
         onError: (String) -> Unit,
@@ -66,7 +64,7 @@ class ListMonsterRepository @Inject constructor(
     }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
 
     @WorkerThread
-    fun deleteFromDataSet(
+    fun deleteMonster(
         onStart: () -> Unit,
         onCompletion: () -> Unit,
         onError: (String) -> Unit,
@@ -79,7 +77,7 @@ class ListMonsterRepository @Inject constructor(
     }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
 
     @WorkerThread
-    fun modifyInDataSet(
+    fun favouriteMonster(
         onStart: () -> Unit,
         onCompletion: () -> Unit,
         onError: (String) -> Unit,
@@ -91,13 +89,13 @@ class ListMonsterRepository @Inject constructor(
 
     }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
 
-    private fun mockDataSet() {
+    private fun mockMonsterData() {
         val newDataSet = arrayListOf<ListMonster>()
 
-        newDataSet.add(ListMonster("Test 1", false))
-        newDataSet.add(ListMonster("Test 2", false))
-        newDataSet.add(ListMonster("Test 3", false))
-        newDataSet.add(ListMonster("Test 4", false))
+        newDataSet.add(ListMonster("Test1", false))
+        newDataSet.add(ListMonster("Test2", false))
+        newDataSet.add(ListMonster("Test3", false))
+        newDataSet.add(ListMonster("Test4", false))
 
         dataSet = newDataSet.toList()
     }
