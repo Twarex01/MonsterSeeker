@@ -1,12 +1,15 @@
 package com.example.monsterseeker
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterseeker.adapters.RecyclerAdapter
+import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.viewmodels.ListMonsterViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,6 +29,13 @@ class MainActivity : AppCompatActivity() {
 
             recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(this)
+        }
+
+        val fab = findViewById<FloatingActionButton>(R.id.fab)
+
+        //TODO: Rand
+        fab.setOnClickListener(){
+            model.addListMonster(NewMonster("AddedMonster", "Description"))
         }
     }
 }

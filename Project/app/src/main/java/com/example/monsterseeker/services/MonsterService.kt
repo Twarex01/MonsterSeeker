@@ -25,5 +25,5 @@ interface  MonsterService {
     suspend fun addMonster(@Body newMonster : NewMonster): ApiResponse<ResponseBody>
 
     @DELETE("/Monsters/{name}")
-    suspend fun addMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
+    suspend fun removeMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
 }

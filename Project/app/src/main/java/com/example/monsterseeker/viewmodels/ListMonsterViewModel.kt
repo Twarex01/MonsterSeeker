@@ -3,6 +3,7 @@ package com.example.monsterseeker.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.repositories.ListMonsterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,5 +25,32 @@ class ListMonsterViewModel @Inject constructor(
         if(this::detailedMonsters.isInitialized)
             return
         detailedMonsters = repository.getDataSet()
+    }
+
+    fun addListMonster(newMonster: NewMonster) {
+        repository.addToDataSet(
+            onStart = {},
+            onCompletion = {},
+            onError = {"Adding to DataSet failed"},
+            newMonster
+        )
+    }
+
+    fun deleteListMonster(name: String) {
+        repository.deleteFromDataSet(
+            onStart = {},
+            onCompletion = {},
+            onError = {"Removing from DataSet failed"},
+            name
+        )
+    }
+
+    fun favouriteListMonster(name: String) {
+        repository.modifyInDataSet(
+            onStart = {},
+            onCompletion = {},
+            onError = {"Modifying DataSet failed"},
+            name
+        )
     }
 }

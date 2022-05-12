@@ -33,6 +33,7 @@ object NetworkModule {
             .client(okHttpClient)
             .baseUrl(
                 "https://localhost:7203/"
+                //TODO: Backendet kirakni, ha szükséges, egyébként port forwarding
             )
             .build()
     }
