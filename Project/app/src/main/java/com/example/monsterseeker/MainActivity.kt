@@ -1,5 +1,6 @@
 package com.example.monsterseeker
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -62,5 +63,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun onTextViewClick(name : String) {
         Toast.makeText(this@MainActivity, "Monster opened", Toast.LENGTH_SHORT).show()
+
+        val intent = Intent(this, DetailedActivity::class.java)
+        intent.putExtra("Name", name)
+        startActivity(intent)
     }
 }
