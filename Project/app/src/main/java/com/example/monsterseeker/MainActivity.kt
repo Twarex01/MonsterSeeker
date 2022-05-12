@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterseeker.adapters.RecyclerAdapter
 import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.viewmodels.ListMonsterViewModel
+import com.example.monsterseeker.viewmodels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -21,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val mainModel = ViewModelProvider(this)[MainViewModel::class.java]
+        val monsterList = mainModel.monsterList
 
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         model = ViewModelProvider(this)[ListMonsterViewModel::class.java]

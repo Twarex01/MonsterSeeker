@@ -13,18 +13,18 @@ import javax.inject.Inject
 class ListMonsterViewModel @Inject constructor(
     listMonsterRepository: ListMonsterRepository
 ) : ViewModel() {
-    private lateinit var detailedMonsters: MutableLiveData<List<ListMonster>>
+    private lateinit var listMonsters: MutableLiveData<List<ListMonster>>
 
     private var repository : ListMonsterRepository = listMonsterRepository
 
     fun getListMonsters(): LiveData<List<ListMonster>> {
-        return detailedMonsters
+        return listMonsters
     }
 
     fun loadListMonsters() {
-        if(this::detailedMonsters.isInitialized)
+        if(this::listMonsters.isInitialized)
             return
-        detailedMonsters = repository.getMonsterData()
+        listMonsters = repository.getMonsterData()
     }
 
     fun addListMonster(newMonster: NewMonster) {
