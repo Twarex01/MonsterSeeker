@@ -25,11 +25,13 @@ class ListMonsterRepository @Inject constructor(
 
     //TODO: Dao
     fun getDataSet(): MutableLiveData<List<ListMonster>> {
-        setDataSet(
-            onStart = {},
-            onCompletion = {},
-            onError = { "Setting DataSet failed" }
-        )
+        //setDataSet(
+        //    onStart = {},
+        //    onCompletion = {},
+        //    onError = { "Setting DataSet failed" }
+        //)
+
+        mockDataSet()
 
         val data : MutableLiveData<List<ListMonster>> = MutableLiveData()
 

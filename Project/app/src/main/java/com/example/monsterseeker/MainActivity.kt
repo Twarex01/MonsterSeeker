@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         model.getListMonsters().observe(this) {
             val value = model.getListMonsters().value
-            val adapter = RecyclerAdapter(value!!)
+            val adapter = RecyclerAdapter(value!!){ onItemClick() }
 
             recyclerview.adapter = adapter
             recyclerview.layoutManager = LinearLayoutManager(this)
@@ -35,7 +35,12 @@ class MainActivity : AppCompatActivity() {
 
         //TODO: Rand
         fab.setOnClickListener(){
+            Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
             model.addListMonster(NewMonster("AddedMonster", "Description"))
         }
+    }
+
+    private fun onItemClick() {
+        Toast.makeText(this@MainActivity, "Monster removed", Toast.LENGTH_SHORT).show()
     }
 }
