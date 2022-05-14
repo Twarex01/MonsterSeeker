@@ -13,4 +13,10 @@ interface MonsterDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(monsters: List<MonsterEntity>)
+
+    @Query("DELETE FROM MonsterEntity WHERE name = :name_ ")
+    fun delete(name_ : String)
+
+    @Update
+    fun updateMonster(monster: MonsterEntity)
 }

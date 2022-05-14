@@ -17,8 +17,7 @@ class DetailedMonsterRepository @Inject constructor(
     private lateinit var data : DetailedMonster
 
     fun getMonsterByName(name : String): MutableLiveData<DetailedMonster> {
-        //setMonsterByName(
-        //)
+        //setMonsterByName()
 
         mockMonsterDetails(name)
 
@@ -30,8 +29,17 @@ class DetailedMonsterRepository @Inject constructor(
 
     @WorkerThread
     private fun setMonsterByName(name : String) = flow {
-        val monster = monsterService.getMonster(name)
-        emit(monster)
+        var daoMonster = monsterDao.getByName(name)
+
+        if(daoMonster.isEmpty())
+        {
+            val monster = monsterService.getMonster(name)
+            emit(monster)
+        }
+        else
+        {
+            emit(daoMonster[0])
+        }
     }.flowOn(Dispatchers.IO)
 
     private fun mockMonsterDetails(name : String) {

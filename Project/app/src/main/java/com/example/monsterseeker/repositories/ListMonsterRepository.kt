@@ -3,6 +3,7 @@ package com.example.monsterseeker.repositories
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
 import com.example.monsterseeker.database.MonsterDao
+import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
@@ -23,11 +24,7 @@ class ListMonsterRepository @Inject constructor(
 
     //TODO: Dao
     fun getMonsterData(): MutableLiveData<List<ListMonster>> {
-        //setDataSet(
-        //    onStart = {},
-        //    onCompletion = {},
-        //    onError = { "Setting DataSet failed" }
-        //)
+        //setDataSet()
 
         mockMonsterData()
 
@@ -39,55 +36,79 @@ class ListMonsterRepository @Inject constructor(
 
     @WorkerThread
     private fun setMonsterData(
-        onStart: () -> Unit,
-        onCompletion: () -> Unit,
-        onError: (String) -> Unit
     ) = flow {
-        monsterService.getMonsters()
-            .suspendOnSuccess{
-                dataSet = data
-                emit(data) }.onFailure { onError(this) }
 
-    }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
+        var monsters = monsterDao.getAll()
+
+        var listMonsters : ArrayList<ListMonster> = arrayListOf()
+
+        for (monster in monsters) {
+            var listMonster = ListMonster(monster.name, monster.favourite)
+
+            listMonsters.add(listMonster)
+        }
+
+
+        if(listMonsters.isEmpty())
+        {
+            monsterService.getMonsters()
+                .suspendOnSuccess{
+                    dataSet = data
+                    emit(data) }.onFailure { throw(Exception(this)) }
+        }
+    }.flowOn(Dispatchers.IO)
 
     @WorkerThread
     fun addMonster(
-        onStart: () -> Unit,
-        onCompletion: () -> Unit,
-        onError: (String) -> Unit,
         newMonster: NewMonster
     ) = flow {
+        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
+
+        var monster = MonsterEntity(name = newMonster.name,
+            description = newMonster.description,
+            favourite = false)
+
+        monsterList.add(monster)
+
+        monsterDao.insertAll(monsterList)
+
         monsterService.addMonster(newMonster)
             .suspendOnSuccess{
-                emit(data) }.onFailure { onError(this) }
+                emit(data) }.onFailure { throw(Exception(this)) }
 
-    }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO)
 
     @WorkerThread
     fun deleteMonster(
-        onStart: () -> Unit,
-        onCompletion: () -> Unit,
-        onError: (String) -> Unit,
         monsterName: String
     ) = flow {
+        monsterDao.delete(monsterName)
+
         monsterService.removeMonster(monsterName)
             .suspendOnSuccess{
-                emit(data) }.onFailure { onError(this) }
+                emit(data) }.onFailure { throw(Exception(this)) }
 
-    }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO)
 
     @WorkerThread
     fun favouriteMonster(
-        onStart: () -> Unit,
-        onCompletion: () -> Unit,
-        onError: (String) -> Unit,
         monsterName: String
     ) = flow {
+        var monster = monsterDao.getByName(monsterName)[0]
+
+        var modifiedMonster = MonsterEntity(monster.id, monster.name, monster.description, !monster.favourite)
+
+        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
+
+        monsterList.add(modifiedMonster)
+
+        monsterDao.insertAll(monsterList)
+
         monsterService.favouriteMonster(monsterName)
             .suspendOnSuccess{
-                emit(data) }.onFailure { onError(this) }
+                emit(data) }.onFailure { throw(Exception(this)) }
 
-    }.onStart { onStart() }.onCompletion { onCompletion() }.flowOn(Dispatchers.IO)
+    }.flowOn(Dispatchers.IO)
 
     private fun mockMonsterData() {
         val newDataSet = arrayListOf<ListMonster>()

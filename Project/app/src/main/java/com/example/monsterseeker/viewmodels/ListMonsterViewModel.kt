@@ -29,27 +29,18 @@ class ListMonsterViewModel @Inject constructor(
 
     fun addListMonster(newMonster: NewMonster) {
         repository.addMonster(
-            onStart = {},
-            onCompletion = {},
-            onError = {"Adding to DataSet failed"},
             newMonster
         )
     }
 
     fun deleteListMonster(name: String) {
         repository.deleteMonster(
-            onStart = {},
-            onCompletion = {},
-            onError = {"Removing from DataSet failed"},
             name
         )
     }
 
     fun favouriteListMonster(name: String) {
         repository.favouriteMonster(
-            onStart = {},
-            onCompletion = {},
-            onError = {"Modifying DataSet failed"},
             name
         )
     }

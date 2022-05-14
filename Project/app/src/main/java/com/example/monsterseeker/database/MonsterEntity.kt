@@ -5,12 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class MonsterEntity(
-    @PrimaryKey val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
     val description: String,
     val favourite: Boolean
 ) {
-
     companion object {
 
         fun mock() = MonsterEntity(
