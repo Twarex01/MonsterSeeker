@@ -13,7 +13,7 @@ data class MonsterEntity(
     companion object {
 
         fun mock() = MonsterEntity(
-            id = 0,
+            id = 1,
             name = "Monster",
             description = "Super scary monster",
             favourite = false

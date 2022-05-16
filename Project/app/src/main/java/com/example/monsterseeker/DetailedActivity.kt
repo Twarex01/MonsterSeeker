@@ -3,18 +3,20 @@ package com.example.monsterseeker
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import com.example.monsterseeker.viewmodels.DetailedMonsterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DetailedActivity : AppCompatActivity() {
+
+    lateinit var model : DetailedMonsterViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detailed)
 
-        val model = ViewModelProvider(this)[DetailedMonsterViewModel::class.java]
+        model = ViewModelProvider(this)[DetailedMonsterViewModel::class.java]
 
         val name = intent.getStringExtra("Name") ?: return
 
