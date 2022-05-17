@@ -32,23 +32,12 @@ class DetailedMonsterRepository @Inject constructor(
     private suspend fun setMonsterByName(name : String) {
         var daoMonster = monsterDao.getByName(name)
 
-        if(daoMonster.isEmpty())
-        {
-            when(val monsterResponse = monsterService.getMonster(name))
-            {
-                is ApiResponse.Success -> {
-                    data = monsterResponse.data
-                }
-
-                is ApiResponse.Failure.Error -> {
-                    return
-                }
-            }
-        }
-        else
-        {
+        data = if(daoMonster == null) {
+            val monsterResponse = monsterService.getMonster(name)
+            monsterResponse
+        } else {
             var monster = daoMonster[0]
-            data = DetailedMonster(monster.name, monster.description)
+            DetailedMonster(monster.name, monster.description)
         }
     }
 

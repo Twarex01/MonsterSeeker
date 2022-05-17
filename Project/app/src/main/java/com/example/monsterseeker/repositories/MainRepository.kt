@@ -20,17 +20,8 @@ class MainRepository @Inject constructor(
     suspend fun fetchMonsters() {
         val monsters: List<MonsterEntity> = monsterDao.getAll()
         if (monsters.isEmpty()) {
-
-            when(val monsterResponse = monsterService.fetchMonsterList())
-            {
-                is ApiResponse.Success -> {
-                    monsterDao.insertAll(monsterResponse.data)
-                }
-
-                is ApiResponse.Failure.Error -> {
-                    return
-                }
-            }
+            val monsterResponse = monsterService.fetchMonsterList()
+            monsterDao.insertAll(monsterResponse)
         }
     }
 }

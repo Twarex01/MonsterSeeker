@@ -33,13 +33,17 @@ class MainActivity : AppCompatActivity() {
 
         model.getListMonsters().observe(this) {
             val value = model.getListMonsters().value
-            val adapter = RecyclerAdapter(value!!,
-                { name -> onButtonClick(name) },
-                { name -> onCheckBoxClick(name) },
-                { name -> onTextViewClick(name) })
 
-            recyclerview.adapter = adapter
-            recyclerview.layoutManager = LinearLayoutManager(this)
+            if(value != null)
+            {
+                val adapter = RecyclerAdapter(value,
+                    { name -> onButtonClick(name) },
+                    { name -> onCheckBoxClick(name) },
+                    { name -> onTextViewClick(name) })
+
+                recyclerview.adapter = adapter
+                recyclerview.layoutManager = LinearLayoutManager(this)
+            }
         }
 
         val fab = findViewById<FloatingActionButton>(R.id.fab)

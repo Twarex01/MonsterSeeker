@@ -3,6 +3,7 @@ package com.example.monsterseeker.di
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.repositories.DetailedMonsterRepository
 import com.example.monsterseeker.repositories.ListMonsterRepository
+import com.example.monsterseeker.repositories.MainRepository
 import com.example.monsterseeker.services.MonsterService
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,14 @@ object RepositoryModule {
         monsterDao: MonsterDao
     ): ListMonsterRepository {
         return ListMonsterRepository(monsterService, monsterDao)
+    }
+
+    @Provides
+    @ViewModelScoped
+    fun provideMainRepository(
+        monsterService: MonsterService,
+        monsterDao: MonsterDao
+    ): MainRepository {
+        return MainRepository(monsterService, monsterDao)
     }
 }

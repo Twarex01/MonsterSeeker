@@ -30,6 +30,7 @@ class ListMonsterRepository @Inject constructor(
         val mutableData : MutableLiveData<List<ListMonster>> = MutableLiveData()
 
         mutableData.value = dataSet
+
         return mutableData
     }
 
@@ -45,57 +46,28 @@ class ListMonsterRepository @Inject constructor(
             listMonsters.add(listMonster)
         }
 
-        if(listMonsters.isEmpty())
-        {
-            //when(val monsterResponse = monsterService.getMonsters())
-            //{
-            //    is ApiResponse.Success -> {
-            //        dataSet = monsterResponse.data
-            //    }
-
-            //    is ApiResponse.Failure.Error -> {
-            //        return
-            //    }
-            //}
-        }
-        else
-        {
-            dataSet = listMonsters
+        dataSet = if(listMonsters.isEmpty()) {
+            val monsterResponse = monsterService.getMonsters()
+            monsterResponse
+        } else {
+            listMonsters
         }
     }
 
     suspend fun addMonster(newMonster: NewMonster) {
-        when(val monsterResponse = monsterService.addMonster(newMonster))
-        {
-            is ApiResponse.Success -> {
+        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
 
-            }
+        var monster = MonsterEntity(name = newMonster.name,
+            description = newMonster.description,
+            favourite = false)
 
-            is ApiResponse.Failure.Error -> {
-                var monsterList : ArrayList<MonsterEntity> = arrayListOf()
+        monsterList.add(monster)
 
-                var monster = MonsterEntity(name = newMonster.name,
-                    description = newMonster.description,
-                    favourite = false)
-
-                monsterList.add(monster)
-
-                monsterDao.insertAll(monsterList)
-            }
-        }
+        monsterDao.insertAll(monsterList)
     }
 
     suspend fun deleteMonster(monsterName: String) {
-        when(val monsterResponse = monsterService.removeMonster(monsterName))
-        {
-            is ApiResponse.Success -> {
-
-            }
-
-            is ApiResponse.Failure.Error -> {
-                monsterDao.delete(monsterName)
-            }
-        }
+        monsterDao.delete(monsterName)
     }
 
     suspend fun favouriteMonster(monsterName: String) {
@@ -103,20 +75,7 @@ class ListMonsterRepository @Inject constructor(
 
         var modifiedMonster = MonsterEntity(monster.id, monster.name, monster.description, !monster.favourite)
 
-
-        when(val monsterResponse = monsterService.favouriteMonster(monsterName))
-        {
-            is ApiResponse.Success -> {
-            }
-
-            is ApiResponse.Failure.Error -> {
-                var monsterList : ArrayList<MonsterEntity> = arrayListOf()
-
-                monsterList.add(modifiedMonster)
-
-                monsterDao.insertAll(monsterList)
-            }
-        }
+        monsterDao.updateMonster(modifiedMonster)
     }
 
     private fun mockMonsterData() {

@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import javax.net.ssl.HostnameVerifier
 import javax.net.ssl.SSLContext
@@ -71,7 +72,11 @@ object NetworkModule {
             builder.hostnameVerifier ( hostnameVerifier = HostnameVerifier{ _, _ -> true })
 
 
-            return builder.build()
+            return builder
+                .connectTimeout(20L, TimeUnit.SECONDS)
+                .writeTimeout  (20L, TimeUnit.SECONDS)
+                .readTimeout   (20L, TimeUnit.SECONDS)
+                .build()
         } catch (e: Exception) {
             throw RuntimeException(e)
         }
