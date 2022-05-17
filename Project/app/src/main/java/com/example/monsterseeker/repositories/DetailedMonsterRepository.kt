@@ -20,13 +20,10 @@ class DetailedMonsterRepository @Inject constructor(
 ){
     private var data : DetailedMonster? = null
 
-    suspend fun getMonsterByName(name : String): MutableLiveData<DetailedMonster> {
+    suspend fun getMonsterByName(name : String): DetailedMonster? {
         setMonsterByName(name)
 
-        val mutableData : MutableLiveData<DetailedMonster> = MutableLiveData()
-
-        mutableData.value = data
-        return mutableData
+        return data
     }
 
     private suspend fun setMonsterByName(name : String) {

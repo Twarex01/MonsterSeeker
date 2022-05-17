@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.monsterseeker.adapters.RecyclerAdapter
 import com.example.monsterseeker.viewmodels.DetailedMonsterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,12 +24,17 @@ class DetailedActivity : AppCompatActivity() {
 
         model.loadDetailedMonster(name)
 
-        val monster = model.getDetailedMonster()
-
         val title: TextView = findViewById(R.id.titleText)
         val description: TextView = findViewById(R.id.descriptionText)
 
-        //title.text = monster.value!!.name
-        //description.text = monster.value!!.description
+        model.getDetailedMonster().observe(this) {
+            val value = model.getDetailedMonster().value
+
+            if(value != null)
+            {
+                title.text = value.name
+                description.text = value.description
+            }
+        }
     }
 }

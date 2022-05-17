@@ -26,7 +26,8 @@ class DetailedMonsterViewModel @Inject constructor(
     fun loadDetailedMonster(name : String) {
         viewModelScope.launch()
         {
-            detailedMonster = repository.getMonsterByName(name)
+            var monsterData = repository.getMonsterByName(name)
+            detailedMonster.value = monsterData
         }
     }
 }
