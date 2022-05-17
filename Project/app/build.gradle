@@ -149,6 +149,8 @@ dependencies {
     androidTestImplementation "com.google.truth:truth:$versions.truthVersion"
     androidTestImplementation "androidx.test.ext:junit:$versions.androidxTestJunit"
     androidTestImplementation "com.android.support.test:runner:$versions.androidTestRunner"
+
+    implementation group: 'androidx.lifecycle', name:'lifecycle-viewmodel-ktx', version: '2.4.1'
 }
 
 //apply from: '../spotless.gradle'

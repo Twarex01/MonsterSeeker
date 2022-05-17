@@ -2,12 +2,16 @@ package com.example.monsterseeker.repositories
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.services.MonsterService
+import com.skydoves.sandwich.ApiResponse
+import com.skydoves.sandwich.onSuccess
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class DetailedMonsterRepository @Inject constructor(
@@ -16,7 +20,7 @@ class DetailedMonsterRepository @Inject constructor(
 ){
     private var data : DetailedMonster? = null
 
-    fun getMonsterByName(name : String): MutableLiveData<DetailedMonster> {
+    suspend fun getMonsterByName(name : String): MutableLiveData<DetailedMonster> {
         setMonsterByName(name)
 
         val mutableData : MutableLiveData<DetailedMonster> = MutableLiveData()
@@ -25,20 +29,28 @@ class DetailedMonsterRepository @Inject constructor(
         return mutableData
     }
 
-    @WorkerThread
-    private fun setMonsterByName(name : String) = flow {
+    private suspend fun setMonsterByName(name : String) {
         var daoMonster = monsterDao.getByName(name)
 
         if(daoMonster.isEmpty())
         {
-            val monster = monsterService.getMonster(name)
-            emit(monster)
+            when(val monsterResponse = monsterService.getMonster(name))
+            {
+                is ApiResponse.Success -> {
+                    data = monsterResponse.data
+                }
+
+                is ApiResponse.Failure.Error -> {
+                    return
+                }
+            }
         }
         else
         {
-            emit(daoMonster[0])
+            var monster = daoMonster[0]
+            data = DetailedMonster(monster.name, monster.description)
         }
-    }.flowOn(Dispatchers.IO)
+    }
 
     private fun mockMonsterDetails(name : String) {
         data = DetailedMonster(name, "Description")

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val mainModel = ViewModelProvider(this)[MainViewModel::class.java]
-        val monsterList = mainModel.monsterList
+        mainModel.fetchMonsters()
 
         val recyclerview = findViewById<RecyclerView>(R.id.recyclerview)
         model = ViewModelProvider(this)[ListMonsterViewModel::class.java]

@@ -3,9 +3,11 @@ package com.example.monsterseeker.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.repositories.DetailedMonsterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,7 +15,7 @@ class DetailedMonsterViewModel @Inject constructor(
     detailedMonsterRepository: DetailedMonsterRepository
 ) : ViewModel() {
 
-    private lateinit var detailedMonster: MutableLiveData<DetailedMonster>
+    private var detailedMonster: MutableLiveData<DetailedMonster> = MutableLiveData()
 
     private var repository : DetailedMonsterRepository = detailedMonsterRepository
 
@@ -22,8 +24,9 @@ class DetailedMonsterViewModel @Inject constructor(
     }
 
     fun loadDetailedMonster(name : String) {
-        if(this::detailedMonster.isInitialized)
-            return
-        detailedMonster = repository.getMonsterByName(name)
+        viewModelScope.launch()
+        {
+            detailedMonster = repository.getMonsterByName(name)
+        }
     }
 }

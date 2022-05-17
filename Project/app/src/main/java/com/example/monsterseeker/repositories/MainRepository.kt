@@ -4,6 +4,7 @@ import androidx.annotation.WorkerThread
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.services.MonsterService
+import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
@@ -16,20 +17,20 @@ class MainRepository @Inject constructor(
     private val monsterDao: MonsterDao
 ){
 
-    @WorkerThread
-    fun fetchMonsters(
-    ) = flow {
+    suspend fun fetchMonsters() {
         val monsters: List<MonsterEntity> = monsterDao.getAll()
         if (monsters.isEmpty()) {
-            monsterService.fetchMonsterList()
-                .suspendOnSuccess {
-                    monsterDao.insertAll(data)
-                    emit(data)
-                }
-                .onFailure { throw(Exception(this)) }
-        } else {
-            emit(monsters)
-        }
-    }.flowOn(Dispatchers.IO)
 
+            when(val monsterResponse = monsterService.fetchMonsterList())
+            {
+                is ApiResponse.Success -> {
+                    monsterDao.insertAll(monsterResponse.data)
+                }
+
+                is ApiResponse.Failure.Error -> {
+                    return
+                }
+            }
+        }
+    }
 }

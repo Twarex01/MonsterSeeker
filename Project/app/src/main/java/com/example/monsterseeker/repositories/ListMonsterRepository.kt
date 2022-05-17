@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.dtos.NewMonster
+import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
+import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.onFailure
 import com.skydoves.sandwich.suspendOnSuccess
 import kotlinx.coroutines.Dispatchers
@@ -22,10 +24,8 @@ class ListMonsterRepository @Inject constructor(
 ){
     private var dataSet : List<ListMonster> = listOf()
 
-    fun getMonsterData(): MutableLiveData<List<ListMonster>> {
+    suspend fun getMonsterData(): MutableLiveData<List<ListMonster>> {
         setMonsterData()
-
-        //mockMonsterData()
 
         val mutableData : MutableLiveData<List<ListMonster>> = MutableLiveData()
 
@@ -33,9 +33,7 @@ class ListMonsterRepository @Inject constructor(
         return mutableData
     }
 
-    @WorkerThread
-    private fun setMonsterData(
-    ) = flow {
+    private suspend fun setMonsterData(){
 
         var monsters = monsterDao.getAll()
 
@@ -47,67 +45,79 @@ class ListMonsterRepository @Inject constructor(
             listMonsters.add(listMonster)
         }
 
-
         if(listMonsters.isEmpty())
         {
-            monsterService.getMonsters()
-                .suspendOnSuccess{
-                    dataSet = data
-                    emit(data) }.onFailure { throw(Exception(this)) }
+            //when(val monsterResponse = monsterService.getMonsters())
+            //{
+            //    is ApiResponse.Success -> {
+            //        dataSet = monsterResponse.data
+            //    }
+
+            //    is ApiResponse.Failure.Error -> {
+            //        return
+            //    }
+            //}
         }
-    }.flowOn(Dispatchers.IO)
+        else
+        {
+            dataSet = listMonsters
+        }
+    }
 
-    @WorkerThread
-    fun addMonster(
-        newMonster: NewMonster
-    ) = flow {
-        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
+    suspend fun addMonster(newMonster: NewMonster) {
+        when(val monsterResponse = monsterService.addMonster(newMonster))
+        {
+            is ApiResponse.Success -> {
 
-        var monster = MonsterEntity(name = newMonster.name,
-            description = newMonster.description,
-            favourite = false)
+            }
 
-        monsterList.add(monster)
+            is ApiResponse.Failure.Error -> {
+                var monsterList : ArrayList<MonsterEntity> = arrayListOf()
 
-        monsterDao.insertAll(monsterList)
+                var monster = MonsterEntity(name = newMonster.name,
+                    description = newMonster.description,
+                    favourite = false)
 
-        monsterService.addMonster(newMonster)
-            .suspendOnSuccess{
-                emit(data) }.onFailure { throw(Exception(this)) }
+                monsterList.add(monster)
 
-    }.flowOn(Dispatchers.IO)
+                monsterDao.insertAll(monsterList)
+            }
+        }
+    }
 
-    @WorkerThread
-    fun deleteMonster(
-        monsterName: String
-    ) = flow {
-        monsterDao.delete(monsterName)
+    suspend fun deleteMonster(monsterName: String) {
+        when(val monsterResponse = monsterService.removeMonster(monsterName))
+        {
+            is ApiResponse.Success -> {
 
-        monsterService.removeMonster(monsterName)
-            .suspendOnSuccess{
-                emit(data) }.onFailure { throw(Exception(this)) }
+            }
 
-    }.flowOn(Dispatchers.IO)
+            is ApiResponse.Failure.Error -> {
+                monsterDao.delete(monsterName)
+            }
+        }
+    }
 
-    @WorkerThread
-    fun favouriteMonster(
-        monsterName: String
-    ) = flow {
+    suspend fun favouriteMonster(monsterName: String) {
         var monster = monsterDao.getByName(monsterName)[0]
 
         var modifiedMonster = MonsterEntity(monster.id, monster.name, monster.description, !monster.favourite)
 
-        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
 
-        monsterList.add(modifiedMonster)
+        when(val monsterResponse = monsterService.favouriteMonster(monsterName))
+        {
+            is ApiResponse.Success -> {
+            }
 
-        monsterDao.insertAll(monsterList)
+            is ApiResponse.Failure.Error -> {
+                var monsterList : ArrayList<MonsterEntity> = arrayListOf()
 
-        monsterService.favouriteMonster(monsterName)
-            .suspendOnSuccess{
-                emit(data) }.onFailure { throw(Exception(this)) }
+                monsterList.add(modifiedMonster)
 
-    }.flowOn(Dispatchers.IO)
+                monsterDao.insertAll(monsterList)
+            }
+        }
+    }
 
     private fun mockMonsterData() {
         val newDataSet = arrayListOf<ListMonster>()
