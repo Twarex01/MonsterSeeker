@@ -19,10 +19,6 @@ class ListMonsterViewModel @Inject constructor(
 
     private var repository : ListMonsterRepository = listMonsterRepository
 
-    private fun <T> MutableLiveData<T>.trigger() {
-        value = value
-    }
-
     fun getListMonsters(): LiveData<List<ListMonster>> {
         return listMonsters
     }
@@ -30,8 +26,8 @@ class ListMonsterViewModel @Inject constructor(
     fun loadListMonsters() {
         viewModelScope.launch()
         {
-            listMonsters = repository.getMonsterData()
-            listMonsters.trigger()
+            var monsterData = repository.getMonsterData()
+            listMonsters.value = monsterData
         }
     }
 
@@ -42,7 +38,8 @@ class ListMonsterViewModel @Inject constructor(
                 newMonster
             )
 
-            listMonsters.trigger()
+            var monsterData = repository.getMonsterData()
+            listMonsters.value = monsterData
         }
     }
 
@@ -53,7 +50,8 @@ class ListMonsterViewModel @Inject constructor(
                 name
             )
 
-            listMonsters.trigger()
+            var monsterData = repository.getMonsterData()
+            listMonsters.value = monsterData
         }
     }
 
@@ -64,7 +62,8 @@ class ListMonsterViewModel @Inject constructor(
                 name
             )
 
-            listMonsters.trigger()
+            var monsterData = repository.getMonsterData()
+            listMonsters.value = monsterData
         }
     }
 }

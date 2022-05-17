@@ -13,6 +13,7 @@ import com.example.monsterseeker.viewmodels.ListMonsterViewModel
 import com.example.monsterseeker.viewmodels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFabClick() {
         Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
-        model.addListMonster(NewMonster("AddedMonster", "Description"))
+        model.addListMonster(NewMonster("AddedMonster " + Random.nextInt(), "Description"))
     }
 
     private fun onButtonClick(name : String) {

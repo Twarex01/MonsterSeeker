@@ -24,14 +24,10 @@ class ListMonsterRepository @Inject constructor(
 ){
     private var dataSet : List<ListMonster> = listOf()
 
-    suspend fun getMonsterData(): MutableLiveData<List<ListMonster>> {
+    suspend fun getMonsterData(): List<ListMonster> {
         setMonsterData()
 
-        val mutableData : MutableLiveData<List<ListMonster>> = MutableLiveData()
-
-        mutableData.value = dataSet
-
-        return mutableData
+        return dataSet
     }
 
     private suspend fun setMonsterData(){
