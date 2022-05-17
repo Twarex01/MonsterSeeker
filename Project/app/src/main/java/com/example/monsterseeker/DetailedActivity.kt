@@ -27,7 +27,6 @@ class DetailedActivity : AppCompatActivity() {
         val title: TextView = findViewById(R.id.titleText)
         val description: TextView = findViewById(R.id.descriptionText)
 
-        //TODO: Dao
         title.text = monster.value!!.name
         description.text = monster.value!!.description
     }

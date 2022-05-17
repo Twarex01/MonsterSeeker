@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //TODO: Rand
     private fun onFabClick() {
         Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
         model.addListMonster(NewMonster("AddedMonster", "Description"))

@@ -16,7 +16,13 @@
         <CheckBox
             android:id="@+id/checkBox"
             android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"/>
 
         <TextView
             android:id="@+id/textView"
@@ -28,11 +34,17 @@
             android:textStyle="bold"
             android:layout_weight="1"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
+            app:backgroundTint ="@color/red_500"
             android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
             app:icon="@android:drawable/ic_menu_delete" />
 
     </LinearLayout>

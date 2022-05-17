@@ -3,12 +3,12 @@ package com.example.monsterseeker.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.monsterseeker.R
 import com.example.monsterseeker.models.ListMonster
+import com.google.android.material.button.MaterialButton
 
 class RecyclerAdapter(private val mList: List<ListMonster>,
                       private val onButtonClick: (name : String) -> Unit,
@@ -17,7 +17,7 @@ class RecyclerAdapter(private val mList: List<ListMonster>,
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.card_view_design, parent, false)
+            .inflate(R.layout.card_view_main, parent, false)
 
         return ViewHolder(view, onButtonClick, onCheckBoxClick, onTextViewClick)
     }
@@ -51,7 +51,7 @@ class RecyclerAdapter(private val mList: List<ListMonster>,
                 onCheckBoxClick(textView.text.toString())
             }
 
-            val button: Button = itemView.findViewById(R.id.button)
+            val button: MaterialButton = itemView.findViewById(R.id.button)
             button.setOnClickListener{
                 onButtonClick(textView.text.toString())
             }
