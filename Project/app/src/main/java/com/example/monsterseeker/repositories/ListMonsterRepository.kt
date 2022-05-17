@@ -20,13 +20,12 @@ class ListMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    private lateinit var dataSet : List<ListMonster>
+    private var dataSet : List<ListMonster> = listOf()
 
-    //TODO: Dao
     fun getMonsterData(): MutableLiveData<List<ListMonster>> {
-        //setDataSet()
+        setMonsterData()
 
-        mockMonsterData()
+        //mockMonsterData()
 
         val mutableData : MutableLiveData<List<ListMonster>> = MutableLiveData()
 

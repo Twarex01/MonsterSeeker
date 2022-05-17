@@ -14,12 +14,10 @@ class DetailedMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    private lateinit var data : DetailedMonster
+    private var data : DetailedMonster? = null
 
     fun getMonsterByName(name : String): MutableLiveData<DetailedMonster> {
-        //setMonsterByName()
-
-        mockMonsterDetails(name)
+        setMonsterByName(name)
 
         val mutableData : MutableLiveData<DetailedMonster> = MutableLiveData()
 
