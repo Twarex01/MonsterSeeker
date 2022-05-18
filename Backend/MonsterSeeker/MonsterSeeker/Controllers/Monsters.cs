@@ -26,6 +26,7 @@ namespace MonsterSeeker.Controllers
         [HttpGet]
         public async Task<List<ListMonster>> GetMonsters(CancellationToken cancellationToken) 
         {
+            
             return await _monsterService.GetMonsters(cancellationToken);
         }
 

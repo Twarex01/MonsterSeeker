@@ -1,10 +1,12 @@
 package com.example.monsterseeker.repositories
 
+import android.util.Log
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
+import timber.log.Timber
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
@@ -37,7 +39,7 @@ class ListMonsterRepository @Inject constructor(
                 dataSet = monsterResponse
             }
             catch(e : Exception){
-
+                Log.d("DebugLog", e.message!!)
             }
         } else {
             dataSet = listMonsters
@@ -58,8 +60,8 @@ class ListMonsterRepository @Inject constructor(
         try {
             monsterService.addMonster(newMonster)
         }
-        catch(e : Exception){
-
+        catch(e : Exception) {
+            Log.d("DebugLog", e.message!!)
         }
     }
 
@@ -70,7 +72,7 @@ class ListMonsterRepository @Inject constructor(
             monsterService.removeMonster(monsterName)
         }
         catch(e : Exception){
-
+            Log.d("DebugLog", e.message!!)
         }
     }
 
@@ -85,7 +87,7 @@ class ListMonsterRepository @Inject constructor(
             monsterService.favouriteMonster(monsterName)
         }
         catch(e : Exception){
-
+            Log.d("DebugLog", e.message!!)
         }
     }
 

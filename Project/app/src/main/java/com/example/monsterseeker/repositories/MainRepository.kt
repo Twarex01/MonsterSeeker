@@ -1,8 +1,10 @@
 package com.example.monsterseeker.repositories
 
+import android.util.Log
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.services.MonsterService
+import timber.log.Timber
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -18,7 +20,7 @@ class MainRepository @Inject constructor(
                 monsterDao.insertAll(monsterResponse)
             }
             catch(e : Exception){
-
+                Log.d("DebugLog", e.message!!)
             }
         }
     }

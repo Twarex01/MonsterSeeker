@@ -2,6 +2,7 @@ package com.example.monsterseeker
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -13,7 +14,10 @@ import com.example.monsterseeker.viewmodels.ListMonsterViewModel
 import com.example.monsterseeker.viewmodels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
+import timber.log.Timber.Forest.plant
 import kotlin.random.Random
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -23,6 +27,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (BuildConfig.DEBUG) {
+            plant(Timber.DebugTree())
+        }
+
+        Timber.log(1, "Hello Timber!")
+
+        Log.d("DebugLog", "Hello")
 
         val mainModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainModel.fetchMonsters()
