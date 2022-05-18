@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.monsterseeker.adapters.RecyclerAdapter
 import com.example.monsterseeker.viewmodels.DetailedMonsterViewModel
 import dagger.hilt.android.AndroidEntryPoint
 

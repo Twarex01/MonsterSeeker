@@ -18,12 +18,12 @@ interface  MonsterService {
     @GET("api/Monsters/{name}")
     suspend fun getMonster(@Path(value = "name") name : String): DetailedMonster
 
-    //@PUT("api/Monsters/{name}/favourite")
-    //suspend fun favouriteMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
+    @PUT("api/Monsters/{name}/favourite")
+    suspend fun favouriteMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
 
-    //@POST("api/Monsters")
-    //suspend fun addMonster(@Body newMonster : NewMonster): ApiResponse<ResponseBody>
+    @POST("api/Monsters")
+    suspend fun addMonster(@Body newMonster : NewMonster): ApiResponse<ResponseBody>
 
-    //@DELETE("api/Monsters/{name}")
-    //suspend fun removeMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
+    @DELETE("api/Monsters/{name}")
+    suspend fun removeMonster(@Path(value = "name") name : String): ApiResponse<ResponseBody>
 }

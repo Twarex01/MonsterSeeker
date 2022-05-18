@@ -1,21 +1,10 @@
 package com.example.monsterseeker.repositories
 
-import androidx.annotation.WorkerThread
-import androidx.lifecycle.MutableLiveData
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.database.MonsterEntity
 import com.example.monsterseeker.dtos.NewMonster
-import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
-import com.skydoves.sandwich.ApiResponse
-import com.skydoves.sandwich.onFailure
-import com.skydoves.sandwich.suspendOnSuccess
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
@@ -42,11 +31,16 @@ class ListMonsterRepository @Inject constructor(
             listMonsters.add(listMonster)
         }
 
-        dataSet = if(listMonsters.isEmpty()) {
-            val monsterResponse = monsterService.getMonsters()
-            monsterResponse
+        if(listMonsters.isEmpty()) {
+            try{
+                val monsterResponse = monsterService.getMonsters()
+                dataSet = monsterResponse
+            }
+            catch(e : Exception){
+
+            }
         } else {
-            listMonsters
+            dataSet = listMonsters
         }
     }
 
@@ -60,10 +54,24 @@ class ListMonsterRepository @Inject constructor(
         monsterList.add(monster)
 
         monsterDao.insertAll(monsterList)
+
+        try {
+            monsterService.addMonster(newMonster)
+        }
+        catch(e : Exception){
+
+        }
     }
 
     suspend fun deleteMonster(monsterName: String) {
         monsterDao.delete(monsterName)
+
+        try {
+            monsterService.removeMonster(monsterName)
+        }
+        catch(e : Exception){
+
+        }
     }
 
     suspend fun favouriteMonster(monsterName: String) {
@@ -72,6 +80,13 @@ class ListMonsterRepository @Inject constructor(
         var modifiedMonster = MonsterEntity(monster.id, monster.name, monster.description, !monster.favourite)
 
         monsterDao.updateMonster(modifiedMonster)
+
+        try {
+            monsterService.favouriteMonster(monsterName)
+        }
+        catch(e : Exception){
+
+        }
     }
 
     private fun mockMonsterData() {

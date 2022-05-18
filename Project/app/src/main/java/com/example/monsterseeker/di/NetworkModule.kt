@@ -29,7 +29,7 @@ object NetworkModule {
         return Retrofit.Builder()
             .client(provideUnsafeOkHttpClient)
             .baseUrl(
-                "https://localhost:7203"
+                "https://localhost:7203/"
             )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
