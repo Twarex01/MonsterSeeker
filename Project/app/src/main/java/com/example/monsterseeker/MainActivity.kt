@@ -68,7 +68,15 @@ class MainActivity : AppCompatActivity() {
 
     private fun onFabClick() {
         Toast.makeText(this@MainActivity, "Monster added", Toast.LENGTH_SHORT).show()
-        model.addListMonster(NewMonster("AddedMonster " + Random.nextInt(), "Description"))
+        model.addListMonster(NewMonster("AddedMonster " + Random.nextInt(), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas rutrum euismod ultrices. Vestibulum faucibus erat placerat neque commodo laoreet. Nulla facilisi. Vivamus sed quam urna. Sed interdum magna ac metus eleifend pretium. Mauris et sapien eget velit aliquet convallis id nec odio. Aliquam fringilla est non mi interdum, eu semper velit volutpat. Praesent a felis faucibus, tristique urna eget, tempus urna. Pellentesque in ex orci. Integer eget nulla pellentesque, pellentesque ex nec, tempor ligula. Morbi a turpis mollis, pellentesque tortor non, pharetra nunc. Nullam dui nibh, auctor dictum nisi vel, scelerisque sagittis nisl.\n" +
+                "\n" +
+                "Nullam mattis convallis erat, nec auctor est viverra sed. Curabitur libero nibh, fermentum id ligula eget, semper tempus mi. Vivamus imperdiet est at nunc varius accumsan. Vestibulum vel massa ut tellus elementum eleifend. Etiam at molestie est, eu condimentum nulla. Interdum et malesuada fames ac ante ipsum primis in faucibus. Maecenas sit amet ligula vel tellus faucibus cursus vitae eu turpis.\n" +
+                "\n" +
+                "Nam eu nibh metus. Sed fermentum mattis nisl, non pretium sapien pretium a. Suspendisse id sem nec diam convallis viverra quis a eros. Donec pharetra a magna vel vehicula. Donec blandit lorem posuere lectus rhoncus, sed cursus lectus dignissim. Ut orci massa, feugiat at enim semper, lobortis malesuada velit. Donec quis vestibulum lectus, nec placerat felis. Donec non interdum ex, at vestibulum mi. Mauris ultrices, justo eget tempor tempus, dui lacus lobortis nisl, in tristique leo tortor blandit ex. Suspendisse sed lacus in ipsum luctus tincidunt non non ex.\n" +
+                "\n" +
+                "In hendrerit auctor massa, eleifend sollicitudin tortor elementum quis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aliquam at lectus sit amet dui efficitur efficitur. Proin felis felis, congue nec porta at, sollicitudin eu odio. In commodo, dui at malesuada lacinia, dui ligula facilisis felis, tristique pretium orci nibh sed nisi. Donec sem metus, dapibus sed est non, tincidunt tristique erat. Suspendisse vestibulum metus ut venenatis ornare. Nullam condimentum lacus ut felis ornare semper.\n" +
+                "\n" +
+                "Etiam lobortis et sem id finibus. Sed sed libero fermentum, fermentum elit in, bibendum nisi. Nullam rutrum interdum orci ut mollis. Nullam feugiat lectus eget enim ultricies porta. Vestibulum nulla risus, sodales sed rhoncus sit amet, congue in erat. Morbi tempus pharetra fringilla. Vestibulum vestibulum risus sed tempor vulputate. Suspendisse interdum diam in dictum varius."))
     }
 
     private fun onButtonClick(name : String) {

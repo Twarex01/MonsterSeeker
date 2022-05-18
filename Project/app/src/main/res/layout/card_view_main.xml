@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:backgroundTint="#99FFFFFF">
 
         <CheckBox
             android:id="@+id/checkBox"
@@ -32,7 +33,9 @@
             android:text="@string/DefaultText"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:backgroundTint="#00000000"/>
 
         <com.google.android.material.button.MaterialButton
             app:backgroundTint ="@color/red_500"
