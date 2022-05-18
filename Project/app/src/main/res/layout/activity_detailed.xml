@@ -24,11 +24,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText">
+        app:layout_constraintTop_toBottomOf="@+id/titleText"
+        android:background="@drawable/background2">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:backgroundTint="#00000000">
 
             <TextView
                 android:id="@+id/descriptionText"
@@ -40,7 +43,9 @@
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="#00000000"
+                android:backgroundTint="#00000000"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
