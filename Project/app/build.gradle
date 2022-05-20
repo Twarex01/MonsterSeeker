@@ -6,6 +6,8 @@ plugins {
 }
 
 apply from: '../dependencies.gradle'
+apply from: '../jacoco.gradle'
+
 
 android {
     compileSdkVersion versions.compileSdk
