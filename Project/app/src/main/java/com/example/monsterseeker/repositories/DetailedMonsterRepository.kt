@@ -1,6 +1,5 @@
 package com.example.monsterseeker.repositories
 
-import androidx.lifecycle.MutableLiveData
 import com.example.monsterseeker.database.MonsterDao
 import com.example.monsterseeker.models.DetailedMonster
 import com.example.monsterseeker.services.MonsterService
@@ -10,28 +9,28 @@ class DetailedMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    //Init?
+    private var data : DetailedMonster? = null
 
-    companion object{
-        private var instance : DetailedMonsterRepository? = null
+    suspend fun getMonsterByName(name : String): DetailedMonster? {
+        setMonsterByName(name)
 
-        fun getInstance(): DetailedMonsterRepository {
-            return instance as DetailedMonsterRepository
-        }
-    }
-
-    private var dataSet : ArrayList<DetailedMonster> = arrayListOf()
-
-    fun getDataSet(): MutableLiveData<List<DetailedMonster>> {
-        setDataSet()
-        val data : MutableLiveData<List<DetailedMonster>> = MutableLiveData()
-
-        data.value = dataSet
         return data
     }
 
-    private fun setDataSet() {
-        //TODO
+    private suspend fun setMonsterByName(name : String) {
+        var daoMonster = monsterDao.getByName(name)
+
+        data = if(daoMonster == null) {
+            val monsterResponse = monsterService.getMonster(name)
+            monsterResponse
+        } else {
+            var monster = daoMonster[0]
+            DetailedMonster(monster.name, monster.description)
+        }
+    }
+
+    private fun mockMonsterDetails(name : String) {
+        data = DetailedMonster(name, "Description")
     }
 
 }

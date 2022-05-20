@@ -1,36 +1,104 @@
 package com.example.monsterseeker.repositories
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import com.example.monsterseeker.database.MonsterDao
+import com.example.monsterseeker.database.MonsterEntity
+import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.models.ListMonster
 import com.example.monsterseeker.services.MonsterService
+import timber.log.Timber
 import javax.inject.Inject
 
 class ListMonsterRepository @Inject constructor(
     private val monsterService: MonsterService,
     private val monsterDao: MonsterDao
 ){
-    //Init?
+    private var dataSet : List<ListMonster> = listOf()
 
-    companion object{
-        private var instance : ListMonsterRepository? = null
+    suspend fun getMonsterData(): List<ListMonster> {
+        setMonsterData()
 
-        fun getInstance(): ListMonsterRepository {
-            return instance as ListMonsterRepository
+        return dataSet
+    }
+
+    private suspend fun setMonsterData(){
+
+        var monsters = monsterDao.getAll()
+
+        var listMonsters : ArrayList<ListMonster> = arrayListOf()
+
+        for (monster in monsters) {
+            var listMonster = ListMonster(monster.name, monster.favourite)
+
+            listMonsters.add(listMonster)
+        }
+
+        if(listMonsters.isEmpty()) {
+            try{
+                val monsterResponse = monsterService.getMonsters()
+                dataSet = monsterResponse
+            }
+            catch(e : Exception){
+                Log.d("DebugLog", e.message!!)
+            }
+        } else {
+            dataSet = listMonsters
         }
     }
 
-    private var dataSet : ArrayList<ListMonster> = arrayListOf()
+    suspend fun addMonster(newMonster: NewMonster) {
+        var monsterList : ArrayList<MonsterEntity> = arrayListOf()
 
-    fun getDataSet(): MutableLiveData<List<ListMonster>> {
-        setDataSet()
-        val data : MutableLiveData<List<ListMonster>> = MutableLiveData()
+        var monster = MonsterEntity(name = newMonster.name,
+            description = newMonster.description,
+            favourite = false)
 
-        data.value = dataSet
-        return data
+        monsterList.add(monster)
+
+        monsterDao.insertAll(monsterList)
+
+        try {
+            monsterService.addMonster(newMonster)
+        }
+        catch(e : Exception) {
+            Log.d("DebugLog", e.message!!)
+        }
     }
 
-    private fun setDataSet() {
-        //TODO
+    suspend fun deleteMonster(monsterName: String) {
+        monsterDao.delete(monsterName)
+
+        try {
+            monsterService.removeMonster(monsterName)
+        }
+        catch(e : Exception){
+            Log.d("DebugLog", e.message!!)
+        }
+    }
+
+    suspend fun favouriteMonster(monsterName: String) {
+        var monster = monsterDao.getByName(monsterName)[0]
+
+        var modifiedMonster = MonsterEntity(monster.id, monster.name, monster.description, !monster.favourite)
+
+        monsterDao.updateMonster(modifiedMonster)
+
+        try {
+            monsterService.favouriteMonster(monsterName)
+        }
+        catch(e : Exception){
+            Log.d("DebugLog", e.message!!)
+        }
+    }
+
+    private fun mockMonsterData() {
+        val newDataSet = arrayListOf<ListMonster>()
+
+        newDataSet.add(ListMonster("Test1", false))
+        newDataSet.add(ListMonster("Test2", false))
+        newDataSet.add(ListMonster("Test3", false))
+        newDataSet.add(ListMonster("Test4", false))
+
+        dataSet = newDataSet.toList()
     }
 }

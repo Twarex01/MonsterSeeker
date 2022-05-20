@@ -6,14 +6,17 @@ import androidx.room.*
 interface MonsterDao {
 
     @Query("SELECT * FROM MonsterEntity")
-    fun getAll(): List<MonsterEntity>
+    suspend fun getAll(): List<MonsterEntity>
 
-    @Query("SELECT * FROM MonsterEntity WHERE id = :id_ ")
-    fun getById(id_: Long): List<MonsterEntity>
+    @Query("SELECT * FROM MonsterEntity WHERE name = :name_ ")
+    suspend fun getByName(name_: String): List<MonsterEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(vararg monsters: MonsterEntity)
+    suspend fun insertAll(monsters: List<MonsterEntity>)
 
-    @Delete()
-    fun delete(monsters: MonsterEntity)
+    @Query("DELETE FROM MonsterEntity WHERE name = :name_ ")
+    suspend fun delete(name_ : String)
+
+    @Update
+    suspend fun updateMonster(monster: MonsterEntity)
 }
