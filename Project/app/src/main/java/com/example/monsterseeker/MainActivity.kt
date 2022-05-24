@@ -3,6 +3,8 @@ package com.example.monsterseeker
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +15,12 @@ import com.example.monsterseeker.dtos.NewMonster
 import com.example.monsterseeker.viewmodels.ListMonsterViewModel
 import com.example.monsterseeker.viewmodels.MainViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.Event.SELECT_ITEM
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import timber.log.Timber.Forest.plant
@@ -23,6 +31,8 @@ import kotlin.random.Random
 class MainActivity : AppCompatActivity() {
 
     lateinit var model : ListMonsterViewModel
+
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +45,11 @@ class MainActivity : AppCompatActivity() {
         Timber.log(1, "Hello Timber!")
 
         Log.d("DebugLog", "Hello")
+
+        FirebaseApp.initializeApp(this);
+
+        // Obtain the FirebaseAnalytics instance.
+        firebaseAnalytics = Firebase.analytics
 
         val mainModel = ViewModelProvider(this)[MainViewModel::class.java]
         mainModel.fetchMonsters()
@@ -59,11 +74,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN){ this }
+
         val fab = findViewById<FloatingActionButton>(R.id.fab)
 
         fab.setOnClickListener {
             onFabClick()
         }
+
+        val crashButton = Button(this)
+        crashButton.text = "Test Crash"
+        crashButton.setOnClickListener {
+            throw RuntimeException("Test Crash") // Force a crash
+        }
+
+        addContentView(crashButton, ViewGroup.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
     private fun onFabClick() {
@@ -91,6 +118,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun onTextViewClick(name : String) {
         Toast.makeText(this@MainActivity, "Monster opened", Toast.LENGTH_SHORT).show()
+
+        firebaseAnalytics.logEvent(SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_NAME, name)
+        }
 
         val intent = Intent(this, DetailedActivity::class.java)
         intent.putExtra("Name", name)
